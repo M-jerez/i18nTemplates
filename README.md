@@ -19,7 +19,7 @@ All you templates will be Joined in the file `html.json` this file contain all y
 
 For every one of the languages defined in the options, the task will generate an extra file with all the templates translated using the values grabbed from the locale files. i.e: if `options.locales = ["en","de","oth_er"]` then the task will generate the files `en_html.json , de_html.json and oth_er_html.json` all of them already translated and ready to use in javascript.
 
-If you have two templates `index.html and form.html`, the generated json will contain one entry for each of the templates, as shown in the code bellow, with the tamplate name without the extension used as key.
+If you have two templates `index.html and form.html`, the generated json will contain one entry for each of the templates, as shown in the code bellow, using the template's name as key.
 ```js
 {
   "index":"<p>the template content .....",
