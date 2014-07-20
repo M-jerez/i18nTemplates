@@ -233,6 +233,7 @@ function TranslatorManager(grunt) {
 						console.log("Key '" + key + " in "
 							+ lang + self.localesSuffix + "' Not found, used the value from the original template.");
 					}
+					return sentence;
 				});
 			});
 		});

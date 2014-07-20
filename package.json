@@ -1,7 +1,7 @@
 {
   "name": "grunt-i18n-templates",
   "description": "i18n for front-end templates.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "homepage": "https://github.com/M-jerez/i18nTemplates",
   "author": {
     "name": "M-Jerez",
