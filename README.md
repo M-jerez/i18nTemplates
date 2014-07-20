@@ -74,19 +74,17 @@ grunt.initConfig({
 });
 ```
 
-### Options (No so optional, they are Required) 
-
-#### !!IMPORTANT: if this options are not configured the system will throw an exception!!
+### Options 
 
 #### options.templatesFolder
 Type: `String`
-Default value: `none`
+Default value: `none, this value is required and not set by default.`
 
 A path to the templates folder.
 
 #### options.localesFolder
 Type: `String`
-Default value: `none`
+Default value: `none, this value is required and not set by default.`
 
 A path to the locales folder.
 
