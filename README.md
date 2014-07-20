@@ -1,7 +1,5 @@
 # grunt-i18nTemplates
 
-> i18n for front-end templates.
-
 
 Parses your template files looking for locale Definitions with the syntax `[[key: text]]`, and Generates or Updates the locale files. 
 Then uses those values to translate ang generate a single json file containig all your templates  (one file for each defined language), so you can access those templates easily from javascript.
