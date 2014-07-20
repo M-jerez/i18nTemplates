@@ -37,6 +37,13 @@
     "grunt": "~0.4.5"
   },
   "keywords": [
-    "gruntplugin"
+    "i18n",
+	"translations",
+	"templates",
+	"frontend",
+	"mustache",
+	"jade",
+	"ejs",
+	"html"
   ]
 }

@@ -25,65 +25,56 @@ In your project's Gruntfile, add a section named `i18nTemplates` to the data obj
 ```js
 grunt.initConfig({
   i18nTemplates: {
-    options: {
-      // Task-specific options go here.
-    },
-    your_target: {
-      // Target-specific file lists and/or options go here.
+  	options: {
+    	locales: \["en","es","de"\],
+        templatesFolder: "./public/templates", //this is where the translated templates will be generated
+        localesFolder: "./src/locales"  //this is where translation files will be stored	
+   	},
+  	your_target: {
+       src: ['./src/templates/**/*.html']
     },
   },
 });
 ```
+
+### Options (Required) !!IMPORTANT: if this options are not configured the system will throw an exception!!
+
+#### options.templatesFolder
+Type: `String`
+Default value: `none`
+
+A path to the templates folder.
+
+#### options.localesFolder
+Type: `String`
+Default value: `none`
+
+A path to the locales folder.
 
 ### Options
 
-#### options.separator
-Type: `String`
-Default value: `',  '`
+#### options.locales
+Type: `Array`
+Default value: `none`
 
-A string value that is used to do something with whatever.
-
-#### options.punctuation
-Type: `String`
-Default value: `'.'`
-
-A string value that is used to do something else with whatever else.
+An Array defining all the languages. i.e: `\["en","es","de"\]`
 
 ### Usage Examples
-
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
-
+This example will generate 4 locale files, one for each language, and will generate 5 templates files, one for each language plus the original one.
 ```js
 grunt.initConfig({
   i18nTemplates: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
+  	options: {
+    	locales: \["en","es","de"\],
+        templatesFolder: "./public/templates", //this is where the translated templates will be generated
+        localesFolder: "./src/locales"  //this is where translation files will be stored	
+   	},
+  	your_target: {
+       src: ['./src/templates/**/*.html']
     },
   },
 });
 ```
-
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
-
-```js
-grunt.initConfig({
-  i18nTemplates: {
-    options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
-```
-
-## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-_(Nothing yet)_
+`0.1.0`  first working version. 

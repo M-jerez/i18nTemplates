@@ -14,37 +14,33 @@ module.exports = function(grunt) {
   // creation: http://gruntjs.com/creating-tasks
 
   grunt.registerMultiTask('i18nTemplates', 'i18n for front-end templates.', function() {
-    // Merge task-specific and/or target-specific options with these defaults.
-    var options = this.options({
-      punctuation: '.',
-      separator: ', '
-    });
+	  var tm = require("./translatorManager")(grunt);
 
-    // Iterate over all specified file groups.
-    this.files.forEach(function(f) {
-      // Concat specified files.
-      var src = f.src.filter(function(filepath) {
-        // Warn on and remove invalid source files (if nonull was set).
-        if (!grunt.file.exists(filepath)) {
-          grunt.log.warn('Source file "' + filepath + '" not found.');
-          return false;
-        } else {
-          return true;
-        }
-      }).map(function(filepath) {
-        // Read file source.
-        return grunt.file.read(filepath);
-      }).join(grunt.util.normalizelf(options.separator));
+	  // Check options.
+	  var options = this.options();
+	  if (!options.templatesFolder || !options.localesFolder)
+		  throw grunt.util.error(
+				  "grunt config options.templatesFolder and options.localesFolder required.\n" +
+				  "i.e: options{templatesFolder:'./public/html',localesFolder:'./locales'}");
+	  else{
+		  tm.setLocalesFolder(options.localesFolder);
+		  tm.setTemplatesFolder(options.templatesFolder);
+	  }
+	  if(options.locales && options.locales instanceof Array)
+		  tm.setLocales(options.locales);
+	  else if(options.locales)
+		  throw grunt.util.error("grunt config options locales must be and array i.e: ['en','de','es']");
 
-      // Handle options.
-      src += options.punctuation;
+	  // parse each file to find i18n definitions.
+	  this.files.forEach(function (file) {
+		  file.src.forEach(function (filePath) {
+			  tm.parseFile(filePath);
+		  });
+	  });
 
-      // Write the destination file.
-      grunt.file.write(f.dest, src);
-
-      // Print a success message.
-      grunt.log.writeln('File "' + f.dest + '" created.');
-    });
+	  // Generate the translated version and save them into json files.
+	  // Also generated the locales files.
+	  tm.save();
   });
 
 };
