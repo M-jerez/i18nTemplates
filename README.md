@@ -49,7 +49,7 @@ npm install grunt-i18nTemplates --save-dev
 Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
 
 ```js
-grunt.loadNpmTasks('grunt-i18nTemplates');
+grunt.loadNpmTasks('grunt-i18n-templates');
 ```
 
 ## The "i18nTemplates" task
