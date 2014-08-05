@@ -163,5 +163,7 @@ grunt.initConfig({
 
 ## Release History
 `0.1.3`  Improve Log Info and update Readme.
+
 `0.1.2`  fix bugs.
+
 `0.1.0`  first working version. 
