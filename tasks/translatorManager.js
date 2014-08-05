@@ -173,7 +173,7 @@ function TranslatorManager(grunt) {
         var fnum = " " + Object.keys(this.fNames).length;
         var defnum = " " + Object.keys(this.defLines).length;
         console.log("-------------------------------------");
-        console.log("Parsed " + fnum.green + " files => " + defnum.blue + " locale definitions.");
+        console.log("Parsed " + fnum.cyan + " files, found " + defnum.blue + " locale definitions.");
         console.log("Templates => " + self.generatedTemplates);
         console.log("Localizations => " + self.generatedLocales);
     }
@@ -243,7 +243,7 @@ function TranslatorManager(grunt) {
             }
         }
         definitions += "";
-        console.log("file " + fileName.green + " => " + definitions.blue + " locale definitions.")
+        console.log("file " + fileName.cyan + ", found " + definitions.blue + " locale definitions.")
     };
 
 
@@ -325,7 +325,7 @@ function TranslatorManager(grunt) {
             if (lang !== "original") {
                 var fName = path.join(self.localesDest, lang + "_" + self.localesSuffix);
                 grunt.file.write(fName, JSON.stringify(self.locales[lang], null, '\t'));
-                self.generatedLocales += (lang + "_" + self.localesSuffix).cyan + " ; ";
+                self.generatedLocales += (lang + "_" + self.localesSuffix).blue + " ; ";
             }
         });
     };
