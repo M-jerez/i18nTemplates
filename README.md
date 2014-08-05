@@ -1,52 +1,95 @@
 # grunt-i18nTemplates
 
-Join all your templates files in a single file `templates.json`.
+
+### `TASK STEP 1`
+
+Join all your templates files in a single `json` file so it is easy to access all the templates from javascript.
+```html
+ // index.html
+ "<html><body><h1>[[title: Hello World]]</h1> .....</body></html>"
+ 
+ // form.html
+ "<for><inpup> ...... </form>"
+```
+Result `templates.json`
 ```js
- // joined:   index.html and form.html
- // result file: templates.json
+ // i.e. : joined  index.html and form.html
+ // result file: 
  {
-   "index":"<html><body>the template content .....</body></html>",
+   "index":"<html><body><h1>[[title: Hello World]]</h1> .....</body></html>",
    "form":"<for><inpup> ...... </form>"
  }
 ```
 
-Parses the template files looking for locale Definitions `[[key: text]]`, and Generates the locales.json files.
-Then uses those values to translate ang generate a single json file containig all your templates  (one file for each defined language), so you can access those templates easily from javascript.
+### `TASK STEP 2`
+
+Parses template files looking for locale-Definitions `[[key: text]]`, and Generates localization files that contais the string to translate.
+```html
+ index.html locale definition => [[title: Hello World]]
+ 
+ form.html locale definition => none
+```
+
+Parsing the two example files generate the next localization files when `options.locales` is set to `["EN","ES"]`
+```js
+ // EN_locales.json  
+ {
+   "index:title":"Hello World"
+ }
+ 
+ // ES_locales.json
+ {
+   "index:title":"Hola Mundo" //this is the translation
+ }
+```
+
+### `TASK STEP 3`
+
+Reads the values in the localization files and use them to generate the translated template files. i.e `EN_templates.json` and `ES_templates.json`. 
+```js
+ // EN_templates.json
+ {
+   "index":"<html><body><h1>Hello World</h1> .....</body></html>",
+   "form":"<for><inpup> ...... </form>"
+ }
+ // ES_templates.json
+ {
+   "index":"<html><body><h1>Hola Mundo</h1> .....</body></html>",
+   "form":"<for><inpup> ...... </form>"
+ }
+```
 
 
-## features
-+ Parse your templates and automatically generate the locale files.
-+ Compatible with multiple template engines. the syntax used to create a locale-Definition `[[key: text]]` is not used by many other javascript templates engines. The translation is done statically with grunt, so template engines work with filles already translated.
-+ Join all your templates in a single `templates.json` file, so you can access them from javascript in a more convenient way.
-+ Yuo will not loose the information edited in your locale files. You can run the task whenever you want to parse new and existent templates, any new locale-Definition will be added to locale files, but will keep all your previously translated values, your translation will stay and never been overwrited.
+### features
++ Join all templates in a single `templates.json` file, so it is more easy to access from javascript.
++ Automatically generate localization files.
++ Compatible with multiple template engines. Translation is done statically so the result can be used by any template engine.
++ Never override the sentences edited in the locale files. it is posiible to run this task at any time, the values in the localization files will never be overwritten, but new templates or new locale-Definitions will be added.
 
 
 ### Generated templates
-All you templates will be Joined in the file `templates.json` this file contain all your templates without translation just joined in a json file for convenient access in the case you dont want to use any translation at all.
+All templates are joined in the file `templates.json`. This file is never translated and always reflect the last estate of the templates, `templates.json` can be used in system where no translation is equired and you only want the join templates functionality. All the others `Xlang_templates.json` uses the values stored in the localization files. 
 
-For every one of the languages defined in the options, the task will generate an extra file with all the templates translated using the values grabbed from the locale files. i.e: if `options.locales = ["en","de","oth_er"]` then the task will generate the files `en_templates.json , de_templates.json and oth_er_templates.json` all of them already translated and ready to use in javascript.
+If the value of one locale-Definition is changed in one file, i.e from `[[title: Hello]]` to `[[title: Bye]]` this change is not reflected in the translated templates `Xlang_templates.json` becouse this are using the values previously stored in the localization files. this change will be reflected only in `templates.json`.
 
-If you have two templates `index.html and form.html`, the generated json will contain one entry for each of the templates, as shown in the code bellow, using the template's name as key.
- ```js
- {
-   "index":"<p>the template content .....",
-   "form":"<for><inpup> ......"
- }
-```
 
 ### Using the generated code.
 i.e: using Jquery and mustache
 ```js
-//this is the english template file generated by this task and contains all you templates.
-var templatesFile = "./templates/en_templates.json";
+//this is the english template file generated by 
+//this task and contains all you templates.
+var EN_templates = "./templates/EN_templates.json";
 jQuery.getJSON(templateFile, function(data){
       /* data contains all the templates */
       var templates = data;
-      Mustache.render(templates.index,{});
+      Mustache.render(EN_templates.index,{});
 });  
 ```
 
-# Grunt and Task Configuration
+     
+     
+
+# GRUNT TASK CONFIGURATION
 This plugin requires Grunt `~0.4.5`
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
@@ -119,6 +162,6 @@ grunt.initConfig({
 ```
 
 ## Release History
-`0.1.3`  Improve Log Info and update readme.
+`0.1.3`  Improve Log Info and update Readme.
 `0.1.2`  fix bugs.
 `0.1.0`  first working version. 
