@@ -18,13 +18,13 @@ module.exports = function (grunt) {
 
         // Check options.
         var options = this.options();
-        if (!options.templatesFolder || !options.localesFolder) {
-            var err = "grunt config options.templatesFolder and options.localesFolder required.\n" +
-                "i.e: options{templatesFolder:'./public/html',localesFolder:'./locales'}";
+        if (!options.templatesDest || !options.localesDest) {
+            var err = "grunt config options.templatesDest and options.localesDest required.\n" +
+                "i.e: options{templatesDest:'./public/html',localesDest:'./locales'}";
             grunt.fail.warn(err, 3);
         } else {
-            tm.setLocalesFolder(options.localesFolder);
-            tm.setTemplatesFolder(options.templatesFolder);
+            tm.setLocalesFolder(options.localesDest);
+            tm.setTemplatesFolder(options.templatesDest);
         }
         if (options.locales && options.locales instanceof Array)
             tm.setLocales(options.locales);

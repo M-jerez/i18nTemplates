@@ -85,13 +85,13 @@ function TranslatorManager(grunt) {
      * The folder's path where the locales files will be generated.
      * @type {null}
      */
-    this.localesFolder = "./locales";
+    this.localesDest = "./locales";
 
     /**
      * The folder's path where the templates files will be generated.
      * @type {null}
      */
-    this.templatesFolder = "./templates";
+    this.templatesDest = "./templates";
 
     /**
      * Suffix used as suffix of the generated templates files.
@@ -128,7 +128,7 @@ function TranslatorManager(grunt) {
      * @param path
      */
     this.setLocalesFolder = function setLocalesFolder(path) {
-        this.localesFolder = path;
+        this.localesDest = path;
     };
 
     /**
@@ -136,7 +136,7 @@ function TranslatorManager(grunt) {
      * @param path
      */
     this.setTemplatesFolder = function setTemplatesFolder(path) {
-        this.templatesFolder = path;
+        this.templatesDest = path;
     };
 
     /**
@@ -285,7 +285,7 @@ function TranslatorManager(grunt) {
     this.overrideNewLocales = function overrideNewLocales() {
         Object.keys(this.locales).forEach(function (lang) {
             if (lang !== "original") {
-                var fName = path.join(self.localesFolder, lang + self.localesSuffix);
+                var fName = path.join(self.localesDest, lang + self.localesSuffix);
                 try {
                     var old = grunt.file.readJSON(fName);
                     Object.keys(old).forEach(function (attrName) {
@@ -307,7 +307,7 @@ function TranslatorManager(grunt) {
     this.saveTemplates = function saveTemplates() {
         Object.keys(this.locales).forEach(function (lang) {
             var prefix = (lang === "original") ? "" : lang + "_";
-            var fName = path.join(self.templatesFolder, prefix + self.templatesSuffix);
+            var fName = path.join(self.templatesDest, prefix + self.templatesSuffix);
             grunt.file.write(fName, JSON.stringify(self.templates[lang], null, '\t'));
             self.generatedTemplates += (prefix + self.templatesSuffix).green + " ; ";
         });
@@ -320,7 +320,7 @@ function TranslatorManager(grunt) {
     this.saveLocales = function saveLocales() {
         Object.keys(this.locales).forEach(function (lang) {
             if (lang !== "original") {
-                var fName = path.join(self.localesFolder, lang + "_" + self.localesSuffix);
+                var fName = path.join(self.localesDest, lang + "_" + self.localesSuffix);
                 grunt.file.write(fName, JSON.stringify(self.locales[lang], null, '\t'));
                 self.generatedLocales += (lang + "_" + self.localesSuffix).blue + " ; ";
             }
