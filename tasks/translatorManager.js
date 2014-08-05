@@ -172,10 +172,10 @@ function TranslatorManager(grunt) {
     this.log = function log() {
         var fnum = " " + Object.keys(this.fNames).length;
         var defnum = " " + Object.keys(this.defLines).length;
-        console.log("---------------------------------------------");
-        console.log("Parsed " + fnum.green + " files. Found " + defnum.blue + " locale definitions.");
-        console.log("\nGenerated Templates files: \n" + self.generatedTemplates);
-        console.log("\nGenerated Locales files: \n" + self.generatedLocales);
+        console.log("-------------------------------------");
+        console.log("Parsed " + fnum.green + " files => " + defnum.blue + " locale definitions.");
+        console.log("Templates => " + self.generatedTemplates);
+        console.log("Localizations => " + self.generatedLocales);
     }
 
     /**
@@ -243,7 +243,7 @@ function TranslatorManager(grunt) {
             }
         }
         definitions += "";
-        console.log("file " + fileName.green + "; found " + definitions.blue + " locale definitions.")
+        console.log("file " + fileName.green + " => " + definitions.blue + " locale definitions.")
     };
 
 
@@ -268,7 +268,7 @@ function TranslatorManager(grunt) {
                     if (!sentence) {
                         sentence = self.locales.original[key];
                         console.log("Key '" + key + " in "
-                            + lang + self.localesSuffix + "' Not found, used the value from the original template.");
+                            + lang + self.localesSuffix + "' Not found, using value from the template.");
                     }
                     return sentence;
                 });
@@ -309,7 +309,10 @@ function TranslatorManager(grunt) {
             var prefix = (lang === "original") ? "" : lang + "_";
             var fName = path.join(self.templatesDest, prefix + self.templatesSuffix);
             grunt.file.write(fName, JSON.stringify(self.templates[lang], null, '\t'));
-            self.generatedTemplates += (prefix + self.templatesSuffix).green + " ; ";
+            if(prefix === "")
+                self.generatedTemplates += (prefix + self.templatesSuffix).underline.cyan + " , ";
+            else
+                self.generatedTemplates += (prefix + self.templatesSuffix).cyan + " , ";
         });
     };
 
@@ -322,7 +325,7 @@ function TranslatorManager(grunt) {
             if (lang !== "original") {
                 var fName = path.join(self.localesDest, lang + "_" + self.localesSuffix);
                 grunt.file.write(fName, JSON.stringify(self.locales[lang], null, '\t'));
-                self.generatedLocales += (lang + "_" + self.localesSuffix).blue + " ; ";
+                self.generatedLocales += (lang + "_" + self.localesSuffix).cyan + " ; ";
             }
         });
     };
