@@ -162,6 +162,8 @@ grunt.initConfig({
 ```
 
 ## Release History
+`0.1.4`  fix bug that overrides the values stored in the locales files.
+
 `0.1.3`  Improve Log Info and update Readme.
 
 `0.1.2`  fix bugs.

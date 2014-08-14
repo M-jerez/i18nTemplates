@@ -283,9 +283,11 @@ function TranslatorManager(grunt) {
      * has priority over the new values in the templates.
      */
     this.overrideNewLocales = function overrideNewLocales() {
+        var processed = false;
         Object.keys(this.locales).forEach(function (lang) {
             if (lang !== "original") {
-                var fName = path.join(self.localesDest, lang + self.localesSuffix);
+                processed = true;
+                var fName = path.join(self.localesDest, lang +"_"+self.localesSuffix);
                 try {
                     var old = grunt.file.readJSON(fName);
                     Object.keys(old).forEach(function (attrName) {
@@ -293,9 +295,15 @@ function TranslatorManager(grunt) {
                     });
                 } catch (fileNotFound) {
                     // if the file does not exist locales is just not override.
+                    console.log(fileNotFound);
+                    console.log("locale not found: ". fName);
                 }
             }
         });
+        if(!processed){
+            grunt.fail.warn("Not possible to read values from previous locales, " +
+                "aborting operation to avoid erase any locale file." , 3);
+        }
     };
 
 
