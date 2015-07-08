@@ -31,6 +31,16 @@ module.exports = function (grunt) {
         else if (options.locales)
             grunt.fail.warn("grunt config options locales must be and array i.e: ['en','de','es']", 3);
 
+        if (options.usePathAsKey) {
+            tm.setUsePathAsKey(options.usePathAsKey);
+        }
+        if (options.cwd) {
+            tm.setCwd(options.cwd);
+        }
+        if (options.saveAllTemplates) {
+            tm.setSaveAllTemplates(options.saveAllTemplates);
+        }
+
         // parse each file to find i18n definitions.
         this.files.forEach(function (file) {
             file.src.forEach(function (filePath) {
