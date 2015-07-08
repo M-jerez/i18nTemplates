@@ -24,7 +24,7 @@ function TranslatorManager(grunt) {
      * Definition's name, only letters and numbers allowed for the name.
      * @type {RegExp}
      */
-    this.delimiters = /\[\[.+\]\]/g;
+    this.delimiters = /\[\[(.+?)\]\]/g;
 
     /**
      * Stores a record of all the files to check there are no duplicated fileNames.
@@ -107,6 +107,24 @@ function TranslatorManager(grunt) {
      */
     this.localesSuffix = "locales.json";
 
+    /**
+     * By default only the fileName is used for key in both the templates and locales,
+     * use this to use the path instead.
+     * @type {boolean}
+     */
+    this.usePathAsKey = false;
+
+    /**
+     * This can be used in combination of usePathAsKey to cut off the current working directory from the path
+     * @type {string}
+     */
+    this.cwd = null;
+
+    /**
+     * By default only those templates are saved that needs translation, use this to include all.
+     * @type {boolean}
+     */
+    this.saveAllTemplates = false;
 
     // ########################################################################################
     // 										METHODS
@@ -138,6 +156,30 @@ function TranslatorManager(grunt) {
     this.setTemplatesFolder = function setTemplatesFolder(path) {
         this.templatesDest = path;
     };
+
+    /**
+     * See at usePathAsKey
+     * @param usePathAsKey value
+     */
+    this.setUsePathAsKey = function setUsePathAsKey(usePathAsKey) {
+        this.usePathAsKey = usePathAsKey;
+    }
+
+    /**
+     * See at saveAllTemplates
+     * @param saveAllTemplates value
+     */
+    this.setSaveAllTemplates = function setSaveAllTemplates(saveAllTemplates) {
+        this.saveAllTemplates = saveAllTemplates;
+    }
+
+    /**
+     * See at cwd
+     * @param cwd value
+     */
+    this.setCwd = function setCwd(cwd) {
+        this.cwd = cwd;
+    }
 
     /**
      * Parse one file to generates the json template files and the translation files.
@@ -241,6 +283,11 @@ function TranslatorManager(grunt) {
                     self.locales[lang][key] = sentence;
                 });
             }
+        }
+        if (self.saveAllTemplates) {
+            Object.keys(this.locales).forEach(function (lang) {
+                self.templates[lang][fileName] = fileContent;
+            });
         }
         definitions += "";
         console.log("file " + fileName.cyan + ", found " + definitions.blue + " locale definitions.")
@@ -347,8 +394,16 @@ function TranslatorManager(grunt) {
      */
     function getFileNameNoExt(filePath) {
         filePath = path.normalize(filePath);
-        var split = filePath.split(path.sep);
-        var fileName = split[split.length - 1];
+        var fileName;
+        if (!self.usePathAsKey) {
+            var split = filePath.split(path.sep);
+            fileName = split[split.length - 1];
+        } else {
+            fileName = filePath;
+            if (self.cwd) {
+                fileName = fileName.substr(fileName.indexOf(self.cwd) + self.cwd.length);
+            }
+        }
         var dotPost = fileName.lastIndexOf(".");
         if (dotPost === 0)
             return fileName;

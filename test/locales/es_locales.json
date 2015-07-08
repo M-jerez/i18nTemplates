@@ -1,3 +1,4 @@
 {
-	"test:hello": "hello hghfgf"
+	"test:hello": "hola",
+	"test:world": "mundo"
 }

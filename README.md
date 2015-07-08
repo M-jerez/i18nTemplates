@@ -95,7 +95,7 @@ This plugin requires Grunt `~0.4.5`
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
 ```shell
-npm install grunt-i18nTemplates --save-dev
+npm install grunt-i18n-templates --save-dev
 ```
 
 Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
@@ -115,7 +115,10 @@ grunt.initConfig({
   	options: {
     	locales: ["en","es","de"],
         templatesDest: "./public/templates", //this is where the translated templates will be generated
-        localesDest: "./src/locales"  //this is where translation files will be stored	
+        localesDest: "./src/locales"  //this is where translation files will be stored
+        usePathAsKey: false,  //only the filename will be used as a key in the templates.json
+	saveAllTemplates: false,  //only save those files, that has something to be translated
+	cwd: ''  //if usePathAsKey:true, current working dir can be removed from the path
    	},
   	your_target: {
        src: ['./src/templates/**/*.html']
@@ -143,6 +146,24 @@ Type: `Array`
 Default value: `none`
 
 An Array defining all the languages. i.e: `["en","es","de"]`
+
+#### options.usePathAsKey
+Type: `Boolean`
+Default value: `false`
+
+By default only the filename is used in the template file to keep things simple. However in some project keeping the path is a better choice.
+
+#### options.cwd
+Type: `String`
+Default value: `none`
+
+In case of the path used for key, it is preffered to cut off the current working directory. This can be specified here.
+
+#### options.saveAllTemplates
+Type: `Boolean`
+Default value: `false`
+
+By default only those templates are saved that needs translation, use this to include all in the template.json files.
 
 ### Usage Examples
 This example will generate 4 locale files in the `./src/locales` folder (one for each language), and will generate 5 templates files in the `./public/templates`, (one for each language + the one without translate).
